@@ -1,0 +1,3 @@
+---
+- name: Update aliases
+  shell: which newaliases && newaliases || true
