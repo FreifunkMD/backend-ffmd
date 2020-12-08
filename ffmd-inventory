@@ -1,6 +1,15 @@
 ---
 all:
   vars:
+    users:
+    - logname: "tux"
+      viewname: "Stefan Haun"
+      email: "tux@netz39.de"
+      ssh_pub:
+      - !unsafe >
+        ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvxbl9eiBojG2zKw2eSftwaMpA4XeONJpPK++WBUBJi+4RhvtN+8YX55cGsRlAA2pvW1a6hxjuR/NEA0+EAZ8ueNaOrMJjHvuUSzO76YF1gHlusAbhYvNl4EYZz/lkrFM4oaa/4/WirgUvSKnpPQx2YgX/AEkIwzk6nQLve+NmijkWdWzaww5snjbAEsgo+iEqeLPRfzbxX4Esp8bqFy3qD0SGgJM8iWlUaWCoQI1HhU4lVBtwdR6cJQ3QnmhUidRLOpIpX1sBRM8Cnwc5g2u3OpsaxPd77+5hXtxKjQUby/YLGmr6L2x1tWYqkV+GZA0Lh3fwM0BjDVT/Y/a+HUVh tux@netz39.de
+      sudo: yes
+      docker: yes
 
   hosts:
     web.md.freifunk.net:
