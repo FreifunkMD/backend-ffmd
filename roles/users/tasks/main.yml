@@ -1,0 +1,58 @@
+---
+
+- name: Ensure sudo is installed
+  package:
+    name:
+    - sudo
+    state: present
+
+- name: Configure group sudo for sudoers without password
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: '^%sudo\s'
+    line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+    validate: /usr/sbin/visudo -cf %s
+
+- name: Add users | create users' shell and home dir
+  user:
+    name: "{{ item.logname }}"
+    shell: /bin/bash
+    createhome: yes
+    comment: "{{ item.viewname }}"
+  with_items: "{{ users }}"
+
+- name: Add authorized keys for user
+  authorized_key:
+    user: "{{ item.0.logname }}"
+    key: "{{ item.1 }}"
+    state: present
+  with_subelements:
+    - "{{ users }}"
+    - ssh_pub
+    - skip_missing: True
+
+- name: Place user in sudo group
+  user:
+    name: "{{ item.logname }}"
+    groups: sudo
+    append: yes
+  when: item.sudo == true
+  with_items: "{{ users }}"
+
+- name: Check if /etc/aliases exists
+  stat:
+    path: /etc/aliases
+  register: aliases
+
+- name: Set system email alias
+  lineinfile:
+    path: /etc/aliases
+    state: present
+    regexp: "^{{ item.logname }}:"
+    line: "{{ item.logname }}: {{ item.email }}"
+  notify: Update aliases
+  when:
+    - item.email is defined
+    - aliases.stat.exists
+  with_items: "{{ users }}"
