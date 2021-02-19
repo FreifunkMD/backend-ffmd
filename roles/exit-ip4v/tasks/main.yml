@@ -1,3 +1,3 @@
 - name: Include generic
   import_tasks: generic.yml
-  when: exit_ipv4.lower() in ["gre", "ipip"]
+  when: exit_ipv4.lower() in ["gre"]
