@@ -1,27 +1,27 @@
 exit-ipv4
 =========================
 
-A role to setup up a OpenVPN, GRE or IPIP connection as exit.
+A role to setup up a gre Connection
 
 
 Role Variables
 ------------------------
 
-### GRE oExit
+### GRE Exit
 
-    exit_ipv4: Tunnel mode (GRE)
-    exit_ipv4_address
-    exit_ipv4_address_global
-    exit_ipv4_address_peer
-    exit_ipv4_local
-    exit_ipv4_remote
+    exit_mode           Type GR
+    exit_remote_v4
+    exit_local_v4
+    exit_local_v6
+    system_localv4
+
 
 Usage
 ------------------------
 
     - hosts: servers
       roles:
-         - { role: exit-ipv4, exit_ipv4: "gre" }
+         - { role: exit-ipv4, exit_mode: "gre" }
 
 
 License
