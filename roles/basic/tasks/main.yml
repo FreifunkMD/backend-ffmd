@@ -3,8 +3,8 @@
     state: present
     name:
       - debian-goodies
+      - figlet
       - ntp
-      - mc
       - strace
       - sudo
       - lsof
@@ -16,12 +16,9 @@
       - apt-transport-https
       - apt-utils
       - etckeeper
-      - lsscsi
-      - gawk
       - net-tools
       - vim
       - psmisc
       - rsync
       - tmux
-      - smartmontools
       - curl
