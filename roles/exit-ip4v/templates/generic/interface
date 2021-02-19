@@ -1,0 +1,19 @@
+# {{ ansible_managed }}
+
+auto {{ exit_ip_interface }}
+iface {{ exit_ip_interface }} inet static
+         address  {{exit_local_v4 }}
+         netmask 255.255.255.254
+         pre-up          /sbin/ip tunnel add $IFACE mode {{ exit_mode }} local {{ system_local }} remote  {{ exit_remote_v4 }} ttl 255
+         post-up         /sbin/ip link set $IFACE mtu 1400
+         post-up         /sbin/ip addr add 185.66.195.72/31 dev $IFACE
+         post-up         /sbin/iptables -t nat -A POSTROUTING -o ffrl+ -j SNAT --to {{ exit_local_v4 }}
+         post-up         /sbin/ip6tables -t nat -A POSTROUTING -o ffrl+ -j  MASQUERADE
+         
+         post-down       /sbin/ip tunnel del $IFACE
+
+iface {{ exit_ip_interface }} inet6 static 
+        address {{ exit_local_v6	}}
+        netmask 64
+ 
+  
