@@ -1,0 +1,50 @@
+- name: Install Common Packages
+  package:
+    state: present
+    name:
+      - debian-goodies
+      - figlet
+      - ntp
+      - strace
+      - sudo
+      - lsof
+      - htop
+      - sysstat
+      - iotop
+      - iftop
+      - git
+      - apt-transport-https
+      - apt-utils
+      - etckeeper
+      - net-tools
+      - vim
+      - psmisc
+      - rsync
+      - tmux
+      - curl
+      - joe
+      - screen
+      - mc
+
+- name: Configure Dynmotd
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/update-motd.d/{{ item }}"
+    owner: root
+    group: root
+    mode: '0751'
+  with_items:
+   - 00-header
+   - 10-uname 
+   - 20-update
+   
+- name: Configure Shell
+  copy:
+    src: "{{ item }}"
+    dest: "/root/{{ item }}"
+    owner: root
+    group: root
+    mode: '0644'
+  with_items:
+   - .bash_aliases 
+   - .bashrc

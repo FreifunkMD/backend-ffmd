@@ -1,0 +1,10 @@
+# some more ls aliases
+# alias ls='ls $LS_OPTIONS'
+alias ll='ls $LS_OPTIONS -l'
+# alias l='ls $LS_OPTIONS -lA'
+alias dcb='docker-compose build'
+alias dcd='docker-compose down'
+alias dcl='docker-compose logs'
+alias dclf='docker-compose logs --tail=50 -f'
+alias dcp='docker-compose pull'
+alias dcu='docker-compose up -d --remove-orphans'
