@@ -22,6 +22,9 @@
       - rsync
       - tmux
       - curl
+      - joe
+      - screen
+      - mc
 
 - name: Configure Dynmotd
   copy:
