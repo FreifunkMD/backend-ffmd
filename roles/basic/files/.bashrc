@@ -88,18 +88,6 @@ fi
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-# some more ls aliases
-# alias ls='ls $LS_OPTIONS'
-alias ll='ls $LS_OPTIONS -l'
-# alias l='ls $LS_OPTIONS -lA'
-alias dcb='docker-compose build'
-alias dcd='docker-compose down'
-alias dcl='docker-compose logs'
-alias dclf='docker-compose logs --tail=50 -f'
-alias dcp='docker-compose pull'
-alias dcu='docker-compose up -d --remove-orphans'
-
-
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
