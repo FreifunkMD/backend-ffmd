@@ -2,6 +2,7 @@
   package:
     state: present
     name:
+      - molly-guard
       - debian-goodies
       - figlet
       - ntp
