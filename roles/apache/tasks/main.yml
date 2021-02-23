@@ -1,0 +1,14 @@
+---
+- name: Ensure Apache2 and modules are installed and up to date
+  apt:
+    name:
+      - apache2
+    state: present
+
+- name: Ensure necessary modules are enabled
+  apache2_module:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - rewrite
+    - ssl

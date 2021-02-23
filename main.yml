@@ -16,4 +16,5 @@
       unattended_mail: 'root'
     - role: docker_setup
 
-
+- name: Web specific setup
+  import_playbook: web.yml
