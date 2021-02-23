@@ -1,16 +1,33 @@
-- name: Install NTP deamon
-  apt: 
-   name=ntp 
-   state=present
+---
+- name: ensure systemd-timesyncd is disabled
+  systemd:
+    name: systemd-timesyncd
+    enabled: no
+    state: stopped
 
-- name: Ensure NTP is listening on correct interfaces
-  lineinfile: 
-      dest=/etc/ntp.conf 
-      line="{{ item.line }}"
+- name: install ntp packages
+  package:
+      state: present
+    name
+    - ntp
+    - ntp-doc
+    - ntpdate
+    - ntpstat
+    
+- name: Copy NTP Conf
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/{{ item }}"
+    owner: root
+    group: root
+    mode: '0511'
   with_items:
-    - { line: "interface listen 127.0.0.1" }
-    - { line: "interface listen ::1" }
-    - { line: "interface listen {{ ansible_default_ipv4.address }}" }
-    - { line: "interface listen {{ ansible_default_ipv6.address }}" }
-    - { line: "interface ignore wildcard" }
-  notify: restart ntp
+   - ntp.conf
+   
+- name: Create a new drift file
+    file:
+      path: "/var/lib/ntp/ntp.drift"
+      state: touch
+      mode: 0755
+      owner: ntp
+      group: ntp
