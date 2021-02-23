@@ -10,7 +10,6 @@
     state: present
     name:
       - ntp
-      - ntp-doc
       - ntpdate
       - ntpstat
     
