@@ -5,6 +5,12 @@
   roles:
     - role: basic
     - role: users
+    - role: ansible-role-unattended-upgrades
+      unattended_origins_patterns:
+      - 'origin=Debian,archive=buster-security'
+      - 'o=Debian,a=buster-updates'
+      unattended_package_blacklist: [cowsay]
+      unattended_mail: 'root'
     - role: docker_setup
 
 
