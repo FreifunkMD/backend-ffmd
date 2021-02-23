@@ -1,2 +1,4 @@
 - src: git+https://github.com/jnv/ansible-role-unattended-upgrades.git
   version: v1.9.0
+- src: git+https://github.com/adriagalin/ansible.timezone.git
+  version: 3.0.0

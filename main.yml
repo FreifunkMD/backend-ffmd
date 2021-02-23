@@ -4,6 +4,9 @@
 
   roles:
     - role: basic
+    - role: ansible.timezone
+      vars:
+        ag_timezone: Europe/Berlin
     - role: users
     - role: ansible-role-unattended-upgrades
       unattended_origins_patterns:
