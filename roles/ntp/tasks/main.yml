@@ -7,12 +7,12 @@
 
 - name: install ntp packages
   package:
-      state: present
-    name
-    - ntp
-    - ntp-doc
-    - ntpdate
-    - ntpstat
+    state: present
+    name:
+      - ntp
+      - ntp-doc
+      - ntpdate
+      - ntpstat
     
 - name: Copy NTP Conf
   copy:
