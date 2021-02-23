@@ -1,0 +1,32 @@
+---
+- name: ensure systemd-timesyncd is disabled
+  systemd:
+    name: systemd-timesyncd
+    enabled: no
+    state: stopped
+
+- name: install ntp packages
+  package:
+    state: present
+    name:
+      - ntp
+      - ntpdate
+      - ntpstat
+    
+- name: Copy NTP Conf
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/{{ item }}"
+    owner: root
+    group: root
+    mode: '0644'
+  with_items:
+   - ntp.conf
+   
+- name: Create a new drift file
+    file:
+      path: "/var/lib/ntp/ntp.drift"
+      state: touch
+      mode: '0644'
+      owner: ntp
+      group: ntp
