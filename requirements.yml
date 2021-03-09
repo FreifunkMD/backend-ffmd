@@ -4,3 +4,5 @@
   version: 3.0.0
 - src: https://github.com/robertdebock/ansible-role-openssh
   name: sshd
+- src: git+https://github.com/24367dfa/ansible-role-dehydrated.git
+  version: 1.0.1
