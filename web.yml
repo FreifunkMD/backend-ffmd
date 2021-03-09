@@ -2,8 +2,21 @@
 - hosts: web
   become: yes
 
+  vars:
+    dehydrated_accept_letsencrypt_terms: True
+    dehydrated_contactemail: "{{ server_admin }}"
+    dehydrated_domains:
+      - name: "md.freifunk.net"
+        deploy_challenge_hook: "systemctl reload apache2"
+      - name: "grafana.md.freifunk.net"
+        deploy_challenge_hook: "systemctl reload apache2"
+      - name: "web.md.freifunk.net"
+        deploy_challenge_hook: "systemctl reload apache2"
+
   roles:
     - role: apache
+    - role: dehydrated
+
 
   tasks:
     - name: Setup proxy site md.freifunk.net
@@ -19,3 +32,4 @@
       vars:
         site_name: grafana.md.freifunk.net
         proxy_port: 3000
+
