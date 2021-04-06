@@ -3,7 +3,7 @@
   become: yes
 
   roles:
-    - role: basic
+    - role: system-basic
     - role: ansible.timezone
       vars:
         ag_timezone: Europe/Berlin
@@ -14,7 +14,7 @@
       - 'o=Debian,a=buster-updates'
       unattended_package_blacklist: [cowsay]
       unattended_mail: 'root'
-    - role: docker_setup
+    - role: system-docker
 
 - name: Web specific setup
   import_playbook: web.yml

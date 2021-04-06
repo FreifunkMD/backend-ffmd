@@ -19,11 +19,11 @@ sshd
 ```
 
 ## Roles
-### basic
+### system-basic
 
 Basic configuration & software installation for all servers.
 
-### ssh
+### service-ssh
 
 Configures the openssh-server. 
 
@@ -32,6 +32,6 @@ Configures the openssh-server.
 Pulls Admin-SSH-Keys from Git and creates corresponding users.
 
 
-### docker
+### system-docker
 
 Installes docker/-compose.
