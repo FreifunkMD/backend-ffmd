@@ -114,6 +114,3 @@ for pkg in cache.packages:
 print "%d updates to install." % upgrades
 print "%d are security updates." % security_upgrades
 print "" # leave a trailing blank line
-                                                                                                                                                                                                 116,1         Bot
-
-
