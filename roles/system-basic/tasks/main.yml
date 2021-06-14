@@ -33,7 +33,7 @@
     dest: "/etc/update-motd.d/{{ item }}"
     owner: root
     group: root
-    mode: '0751'
+    mode: '0755'
   with_items:
    - 00-header
    - 10-uname 
