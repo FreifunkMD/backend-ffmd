@@ -1,0 +1,6 @@
+---
+- hosts: gw01.babel.md.freifunk.net:
+  become: yes
+
+  roles:
+    - role: network-ffrl 
