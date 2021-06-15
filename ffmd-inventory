@@ -1,7 +1,4 @@
----
 all:
-  vars:
-
   hosts:
     web.md.freifunk.net:
     gw01.babel.md.freifunk.net:
@@ -9,14 +6,9 @@ all:
 
   children:
     web:
-      vars:
-
       hosts:
         web.md.freifunk.net:
-
     gateways:
-      vars:
-
       hosts:
         gw01.babel.md.freifunk.net:
         gw02.babel.md.freifunk.net:
