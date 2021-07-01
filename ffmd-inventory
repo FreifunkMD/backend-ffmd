@@ -1,8 +1,6 @@
 all:
-  hosts:
-    web.md.freifunk.net:
-    gw01.babel.md.freifunk.net:
-    gw02.babel.md.freifunk.net:
+  vars:
+    server_admin: "kontakt@md.freifunk.net"
 
   children:
     web:
