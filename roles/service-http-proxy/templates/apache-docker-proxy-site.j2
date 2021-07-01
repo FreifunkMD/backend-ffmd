@@ -1,4 +1,4 @@
-<VirtualHost {{ ansible_default_ipv4.address }}:80 [{{ ansible_default_ipv6.address }}]:80>
+<VirtualHost {{ ansible_default_ipv4.address }}:80 [{{ ansible_default_ipv6.address | default('::1') }}]:80>
     ServerAdmin {{ server_admin }}
     ServerName {{ site_name }}
     ServerAlias {{ site_name }}
@@ -15,7 +15,7 @@
 </VirtualHost>
 
 <IfFile /usr/local/etc/dehydrated/certs/{{ site_name }}>
-<VirtualHost {{ ansible_default_ipv4.address }}:443 [{{ ansible_default_ipv6.address }}]:443>
+<VirtualHost {{ ansible_default_ipv4.address }}:443 [{{ ansible_default_ipv6.address | default('::1') }}]:443>
     ServerAdmin {{ server_admin }}
     ServerName {{ site_name }}
     ServerAlias {{ site_name }}
