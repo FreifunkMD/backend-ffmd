@@ -33,3 +33,15 @@
         site_name: grafana.md.freifunk.net
         proxy_port: 3000
 
+    - name: Setup container for bind9-md.freifunk.net
+      docker_container:
+        name: bind9-md-freifunk-net
+        image: "ffmd/bind9-md-freifunk-net:2022060802"
+        pull: true
+        state: started
+        restart_policy: unless-stopped
+        detach: yes
+        ports:
+          # Bind to the external ip address only
+          # NOTE: There is also a container for the internal ffmd TLD
+        - "{{ ansible_default_ipv4.address }}:53:53/udp"
