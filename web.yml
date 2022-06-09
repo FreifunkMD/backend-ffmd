@@ -15,7 +15,7 @@
 
   roles:
     - role: apache
-    - role: dehydrated
+    - role: ansible-role-dehydrated
 
 
   tasks:
