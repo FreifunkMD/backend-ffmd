@@ -15,20 +15,20 @@
 
   roles:
     - role: apache
-    - role: dehydrated
+    - role: ansible-role-dehydrated
 
 
   tasks:
     - name: Setup proxy site md.freifunk.net
       include_role:
-        name: setup-http-site-proxy
+        name: service-http-proxy
       vars:
         site_name: md.freifunk.net
         proxy_port: 1234
 
     - name: Setup proxy site grafana.md.freifunk.net
       include_role:
-        name: setup-http-site-proxy
+        name: service-http-proxy
       vars:
         site_name: grafana.md.freifunk.net
         proxy_port: 3000
