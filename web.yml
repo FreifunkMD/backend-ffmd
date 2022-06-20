@@ -16,6 +16,8 @@
   roles:
     - role: apache
     - role: ansible-role-dehydrated
+    - role: penguineer.dehydrated_cron
+
 
 
   tasks:
