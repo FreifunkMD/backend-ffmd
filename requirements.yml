@@ -5,6 +5,6 @@
 - src: https://github.com/robertdebock/ansible-role-openssh
   name: sshd
 - src: git+https://github.com/24367dfa/ansible-role-dehydrated.git
-  version: 1.0.2
+  version: 1.0.3
 - src: penguineer.dehydrated_cron
   version: v1.0.0
