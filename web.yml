@@ -29,7 +29,6 @@
         proxy_port: 1234
         extra_config:
         - "ProxyPreserveHost On"
-        - "RequestHeader set X-Forwarded-Proto \"http\""
 
     - name: Setup proxy site grafana.md.freifunk.net
       include_role:
