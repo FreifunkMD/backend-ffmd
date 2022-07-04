@@ -32,6 +32,8 @@
     SSLCertificateChainFile /usr/local/etc/dehydrated/certs/{{ site_name }}/chain.pem
 
     ProxyPass / http://localhost:{{proxy_port}}/
+    RequestHeader set "X-Forwarded-Proto" expr=%{REQUEST_SCHEME}
+    RequestHeader set "X-Forwarded-SSL" expr=%{HTTPS}
 
     <ifmodule mod_rewrite.c>
         # see documentation of wstunnel: This allwos generic websocket passthrough
