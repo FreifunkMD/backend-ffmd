@@ -14,7 +14,9 @@
     </ifmodule>
 </VirtualHost>
 
-<IfFile /usr/local/etc/dehydrated/certs/{{ site_name }}>
+<IfFile /usr/local/etc/dehydrated/certs/{{ site_name }}/cert.pem>
+<IfFile /usr/local/etc/dehydrated/certs/{{ site_name }}/privkey.pem>
+<IfFile /usr/local/etc/dehydrated/certs/{{ site_name }}/chain.pem>
 <VirtualHost {{ ansible_default_ipv4.address }}:443 [{{ ansible_default_ipv6.address | default('::1') }}]:443>
     ServerAdmin {{ server_admin }}
     ServerName {{ site_name }}
@@ -48,4 +50,6 @@
 {% endif %}
 
 </VirtualHost>
+</IfFile>
+</IfFile>
 </IfFile>
