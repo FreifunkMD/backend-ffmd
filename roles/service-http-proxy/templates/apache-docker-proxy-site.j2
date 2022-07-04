@@ -31,6 +31,14 @@
 
     ProxyPass / http://localhost:{{proxy_port}}/
 
+    <ifmodule mod_rewrite.c>
+        # see documentation of wstunnel: This allwos generic websocket passthrough
+        RewriteEngine On
+        RewriteCond %{HTTP:Upgrade} websocket [NC]
+        RewriteCond %{HTTP:Connection} upgrade [NC]
+        RewriteRule ^/?(.*) "ws://{{ backend_host | default("localhost") }}:{{ proxy_port }}/$1" [P,L]
+    </ifmodule>
+
 {% if extra_config is defined %}
 {% for line in extra_config %}
     {{ line }}
