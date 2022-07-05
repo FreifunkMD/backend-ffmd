@@ -14,7 +14,9 @@
     </ifmodule>
 </VirtualHost>
 
-<IfFile /usr/local/etc/dehydrated/certs/{{ site_name }}>
+<IfFile /usr/local/etc/dehydrated/certs/{{ site_name }}/cert.pem>
+<IfFile /usr/local/etc/dehydrated/certs/{{ site_name }}/privkey.pem>
+<IfFile /usr/local/etc/dehydrated/certs/{{ site_name }}/chain.pem>
 <VirtualHost {{ ansible_default_ipv4.address }}:443 [{{ ansible_default_ipv6.address | default('::1') }}]:443>
     ServerAdmin {{ server_admin }}
     ServerName {{ site_name }}
@@ -30,6 +32,16 @@
     SSLCertificateChainFile /usr/local/etc/dehydrated/certs/{{ site_name }}/chain.pem
 
     ProxyPass / http://localhost:{{proxy_port}}/
+    RequestHeader set "X-Forwarded-Proto" expr=%{REQUEST_SCHEME}
+    RequestHeader set "X-Forwarded-SSL" expr=%{HTTPS}
+
+    <ifmodule mod_rewrite.c>
+        # see documentation of wstunnel: This allwos generic websocket passthrough
+        RewriteEngine On
+        RewriteCond %{HTTP:Upgrade} websocket [NC]
+        RewriteCond %{HTTP:Connection} upgrade [NC]
+        RewriteRule ^/?(.*) "ws://{{ backend_host | default("localhost") }}:{{ proxy_port }}/$1" [P,L]
+    </ifmodule>
 
 {% if extra_config is defined %}
 {% for line in extra_config %}
@@ -40,4 +52,6 @@
 {% endif %}
 
 </VirtualHost>
+</IfFile>
+</IfFile>
 </IfFile>
