@@ -11,13 +11,31 @@
       vars:
         ag_timezone: Europe/Berlin
     - role: users
-    - role: ansible-role-unattended-upgrades
-      unattended_origins_patterns:
-      - 'origin=Debian,archive=buster-security'
-      - 'o=Debian,a=buster-updates'
-      unattended_package_blacklist: [cowsay]
-      unattended_mail: 'root'
     - role: system-docker
+
+  tasks:
+    - name: Update and clean package cache
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+        autoclean: true
+      changed_when: false
+
+    - name: Ensure unattended-upgrades is installed and up to date
+      apt:
+        name: unattended-upgrades
+        state: present
+
+    - name: Setup unattended-upgrades
+      include_role:
+        name: hifis.unattended_upgrades
+      vars:
+        unattended_origins_patterns:
+          - "origin=Debian,archive={{ ansible_distribution_release }}-security"
+          - "o=Debian,a={{ ansible_distribution_release }}-updates"
+        unattended_package_blacklist: [cowsay]
+        unattended_mail: "root"
+
 
 - name: Web specific setup
   import_playbook: web.yml
