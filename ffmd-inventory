@@ -11,4 +11,5 @@ all:
     gateways:
       hosts:
         gw01.babel.md.freifunk.net:
+          docker_v6_cidr: "fda9:26e:5805:bab1::/64"
         gw02.babel.md.freifunk.net:
