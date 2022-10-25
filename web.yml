@@ -40,7 +40,7 @@
     - name: Setup container for bind9-md.freifunk.net
       docker_container:
         name: bind9-md-freifunk-net
-        image: "ffmd/bind9-md-freifunk-net:2022062601"
+        image: "ffmd/bind9-md-freifunk-net:2022102401"
         pull: true
         state: started
         restart_policy: unless-stopped
