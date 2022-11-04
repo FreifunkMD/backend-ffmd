@@ -1,0 +1,13 @@
+---
+- name: Add or update Apache2 site
+  template:
+    src: templates/apache-docker-proxy-site.j2
+    dest: /etc/apache2/sites-available/{{ site_name }}.conf
+    mode: "0644"
+  notify: restart apache2
+
+- name: Activate Apache2 site
+  command: a2ensite {{ site_name }}
+  args:
+    creates: /etc/apache2/sites-enabled/{{ site_name }}.conf
+  notify: restart apache2

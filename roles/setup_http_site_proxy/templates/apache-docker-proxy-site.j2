@@ -1,0 +1,61 @@
+{% if 'address' in ansible_default_ipv6 %}
+<VirtualHost {{ ansible_default_ipv4.address }}:80 [{{ ansible_default_ipv6.address }}]:80>
+{% else %}
+<VirtualHost {{ ansible_default_ipv4.address }}:80>
+{% endif %}
+    ServerAdmin {{ server_admin }}
+    ServerName {{ site_name }}
+    ServerAlias {{ site_name }}
+    ErrorLog /var/log/apache2/{{ site_name }}-error.log
+    CustomLog /var/log/apache2/{{ site_name }}-access.log common
+
+    Alias /.well-known/acme-challenge {{ dehydrated_wellknown_dir }}
+
+    <ifmodule mod_rewrite.c>
+        RewriteEngine On
+        RewriteCond %{REQUEST_URI} !^/\.well\-known/acme\-challenge/
+        RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+    </ifmodule>
+</VirtualHost>
+
+<IfFile {{dehydrated_certs_dir}}/{{ site_name }}/cert.pem>
+<IfFile {{dehydrated_certs_dir}}/{{ site_name }}/privkey.pem>
+<IfFile {{dehydrated_certs_dir}}/{{ site_name }}/chain.pem>
+{% if 'address' in ansible_default_ipv6 %}
+<VirtualHost {{ ansible_default_ipv4.address }}:443 [{{ ansible_default_ipv6.address }}]:443>
+{% else %}
+<VirtualHost {{ ansible_default_ipv4.address }}:443>
+{% endif %}
+    ServerAdmin {{ server_admin }}
+    ServerName {{ site_name }}
+    ServerAlias {{ site_name }}
+
+    ErrorLog /var/log/apache2/{{ site_name }}-error.log
+    CustomLog /var/log/apache2/{{ site_name }}-access.log common
+
+    SSLEngine on
+    SetEnvIf User-Agent ".*MSIE.*" nokeepalive ssl-unclean-shutdown
+    SSLCertificateFile    {{dehydrated_certs_dir}}/{{ site_name }}/cert.pem
+    SSLCertificateKeyFile {{dehydrated_certs_dir}}/{{ site_name }}/privkey.pem
+    SSLCertificateChainFile {{dehydrated_certs_dir}}/{{ site_name }}/chain.pem
+
+{% if proxy_port %}
+    AllowEncodedSlashes NoDecode
+    ProxyPass / http://{{ backend_host | default("localhost") }}:{{proxy_port}}/ nocanon
+    RequestHeader set "X-Forwarded-Proto" expr=%{REQUEST_SCHEME}
+    RequestHeader set "X-Forwarded-SSL" expr=%{HTTPS}
+
+    <ifmodule mod_rewrite.c>
+        # see documentation of wstunnel: This allwos generic websocket passthrough
+        RewriteEngine On
+        RewriteCond %{HTTP:Upgrade} websocket [NC]
+        RewriteCond %{HTTP:Connection} upgrade [NC]
+        RewriteRule ^/?(.*) "ws://{{ backend_host | default("localhost") }}:{{ proxy_port }}/$1" [P,L]
+    </ifmodule>
+{% else %}
+    Redirect 404 /
+{% endif %}
+</VirtualHost>
+</IfFile>
+</IfFile>
+</IfFile>
