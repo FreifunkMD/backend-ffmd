@@ -1,0 +1,20 @@
+# Tasks for role apache_letsencrypt
+---
+- name: Create configuration for access to dehydrated location
+  ansible.builtin.template:
+    src: templates/letsencrypt-directory.conf.j2
+    dest: /etc/apache2/conf-available/letsencrypt-directory.conf
+    mode: "0644"
+    owner: root
+    group: root
+  notify: restart apache2
+
+- name: Add symlink to enable configuration
+  ansible.builtin.file:
+    src: /etc/apache2/conf-available/letsencrypt-directory.conf
+    dest: /etc/apache2/conf-enabled/letsencrypt-directory.conf
+    state: link
+    mode: "0644"
+    owner: root
+    group: root
+  notify: restart apache2
