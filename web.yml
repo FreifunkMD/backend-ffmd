@@ -3,6 +3,8 @@
   become: yes
 
   vars:
+    data_dir: "/srv/data"
+
     dehydrated_accept_letsencrypt_terms: True
     dehydrated_contactemail: "{{ server_admin }}"
     dehydrated_domains:
@@ -12,9 +14,14 @@
         deploy_challenge_hook: "systemctl reload apache2"
       - name: "web.md.freifunk.net"
         deploy_challenge_hook: "systemctl reload apache2"
+      - name: "firmware.md.freifunk.net"
+        deploy_challenge_hook: "systemctl reload apache2"
+
+    firmware_http_host_port: 9001
 
   roles:
     - role: apache
+    - role: apache_letsencrypt
     - role: ansible-role-dehydrated
     - role: penguineer.dehydrated_cron
 
@@ -49,3 +56,40 @@
           # Bind to the external ip address only
           # NOTE: There is also a container for the internal ffmd TLD
         - "{{ ansible_default_ipv4.address }}:53:53/udp"
+
+
+    ### firmware.md.freifunk.net
+
+    - name: Check if firmware directory exists
+      ansible.builtin.stat:
+        path: "{{ data_dir }}/firmware"
+      register: firmware_dir
+    - name: Fail if firmware data dir does not exist
+      ansible.builtin.fail:
+        msg: "Firmware data dir is missing, please restore from the backup!"
+      when: not firmware_dir.stat.exists
+
+    - name: Setup static HTTP server for firmware content
+      docker_container:
+        name: firmware-static-http
+        image: joseluisq/static-web-server:2.13.1
+        pull: true
+        state: started
+        detach: true
+        restart_policy: unless-stopped
+        env:
+          SERVER_PORT=80
+          SERVER_ROOT=/public
+          SERVER_DIRECTORY_LISTING=true
+        ports:
+          - "127.0.0.1:{{ firmware_http_host_port }}:80"
+        volumes:
+          - "{{ data_dir }}/firmware:/public:ro"
+
+    - name: Setup proxy site firmware.md.freifunk.net
+      # point to static website for now
+      include_role:
+        name: setup_http_site_proxy
+      vars:
+        site_name: "firmware.md.freifunk.net"
+        proxy_port: "{{ firmware_http_host_port }}"

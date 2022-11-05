@@ -1,0 +1,6 @@
+# Defaults for setup-http-dehydrated
+---
+# These match https://github.com/24367dfa/ansible-role-dehydrated
+dehydrated_config_dir: "/usr/local/etc/dehydrated"
+dehydrated_certs_dir: "{{ dehydrated_config_dir }}/certs"
+dehydrated_wellknown_dir: "{{ dehydrated_config_dir }}/challenge"

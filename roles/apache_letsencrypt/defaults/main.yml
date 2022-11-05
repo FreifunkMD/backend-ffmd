@@ -1,0 +1,3 @@
+# Defaults for role apache_letsencrypt
+---
+dehydrated_location: "/usr/local/etc/dehydrated"
