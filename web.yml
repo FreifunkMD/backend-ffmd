@@ -16,6 +16,8 @@
         deploy_challenge_hook: "systemctl reload apache2"
       - name: "firmware.md.freifunk.net"
         deploy_challenge_hook: "systemctl reload apache2"
+      - name: "map.md.freifunk.net"
+        deploy_challenge_hook: "systemctl reload apache2"
 
     firmware_http_host_port: 9001
 
@@ -43,6 +45,13 @@
       vars:
         site_name: grafana.md.freifunk.net
         proxy_port: 3000
+
+    - name: Setup proxy site map.md.freifunk.net
+      include_role:
+        name: service-http-proxy
+      vars:
+        site_name: map.md.freifunk.net
+        proxy_port: 8010
 
     - name: Setup container for bind9-md.freifunk.net
       docker_container:
