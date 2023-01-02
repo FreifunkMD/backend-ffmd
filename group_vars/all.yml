@@ -14,3 +14,13 @@ users:
     tux@tuxathome.de
   sudo: yes
   docker: yes
+- logname: "dkdent"
+  viewname: "David Kilias"
+  email: "dkdent@netz39.de"
+  ssh_pub:
+  - !unsafe >
+    ssh-ed25519
+    AAAAC3NzaC1lZDI1NTE5AAAAIGQ60PIsna8h71yPTpH+DYyBCJiiOPoAx6TcpuUfJJu2
+    dkdent@netz39.de
+  sudo: yes
+  docker: yes
